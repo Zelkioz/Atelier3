@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Sources de données brutes de l'API GitHub contenant les informations sur les contributeurs et les problèmes"
+    schema: raw
+    tables:
+      - name: contributors
+        description: "Données brutes des contributeurs de l'API GitHub contenant les informations utilisateur"
+        columns:
+          - name: id
+            description: "Identifiant unique du contributeur"
+          - name: login
+            description: "Nom d'utilisateur GitHub du contributeur"
+          - name: name
+            description: "Nom complet du contributeur"
+          - name: company
+            description: "Entreprise d'affiliation du contributeur"
+          - name: location
+            description: "Localisation géographique du contributeur"
+          - name: email
+            description: "Adresse email du contributeur"
+          - name: created_at
+            description: "Horodatage de création du compte contributeur"
+          - name: updated_at
+            description: "Horodatage de la dernière mise à jour des informations du contributeur"
+
+      - name: issues
+        description: "Données brutes des problèmes des dépôts GitHub"
+        columns:
+          - name: id
+            description: "Identifiant unique du problème"
+          - name: title
+            description: "Titre du problème"
+          - name: body
+            description: "Description complète du problème"
+          - name: created_at
+            description: "Horodatage de création du problème"
+          - name: updated_at
+            description: "Horodatage de la dernière mise à jour du problème"
+          - name: state
+            description: "État actuel du problème (ouvert/fermé)"
+          - name: user_id
+            description: "ID de l'utilisateur qui a créé le problème"

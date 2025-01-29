@@ -1,0 +1,16 @@
+# Ignorer les fichiers de données JSON et Parquet
+*.json
+*.parquet
+
+# Ignorer le fichier de base de données DuckDB
+*.duckdb
+
+# Ignorer les fichiers de variables d'environnement
+.env
+
+# Ignorer les répertoires de cache Python
+__pycache__/
+
+# Ignorer tous les répertoires d'environnement virtuel
+venv/
+env/

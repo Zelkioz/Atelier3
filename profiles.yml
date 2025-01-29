@@ -1,0 +1,7 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: 'nodejs_lake.duckdb'
+      threads: 4

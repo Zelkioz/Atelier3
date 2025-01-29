@@ -1,0 +1,138 @@
+version: 2
+
+models:
+  - name: clean_contributors
+    description: "Données des contributeurs nettoyées et normalisées"
+    schema: cleansed
+    columns:
+      - name: contributeur_id
+        description: "Identifiant unique du contributeur"
+        tests:
+          - unique
+          - not_null
+      - name: identifiant
+        description: "Nom d'utilisateur GitHub du contributeur"
+        tests:
+          - not_null
+      - name: nom
+        description: "Nom complet du contributeur"
+      - name: entreprise
+        description: "Entreprise d'affiliation du contributeur"
+      - name: localisation
+        description: "Localisation géographique du contributeur"
+      - name: courriel
+        description: "Adresse email du contributeur"
+      - name: date_creation
+        description: "Horodatage de création du compte contributeur"
+        tests:
+          - not_null
+      - name: date_modification
+        description: "Horodatage de la dernière mise à jour des informations du contributeur"
+        tests:
+          - not_null
+
+  - name: clean_issues
+    description: "Données des problèmes nettoyées et filtrées"
+    schema: cleansed
+    columns:
+      - name: probleme_id
+        description: "Identifiant unique du problème"
+        tests:
+          - unique
+          - not_null
+      - name: titre
+        description: "Titre du problème"
+        tests:
+          - not_null
+      - name: description
+        description: "Description complète du problème"
+      - name: date_creation
+        description: "Horodatage de création du problème"
+        tests:
+          - not_null
+      - name: date_modification
+        description: "Horodatage de la dernière mise à jour du problème"
+        tests:
+          - not_null
+      - name: etat
+        description: "État actuel du problème"
+        tests:
+          - accepted_values:
+              values: ['open']
+      - name: id_contributeur
+        description: "ID de l'utilisateur qui a créé le problème"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('clean_contributors')
+              field: contributeur_id
+
+  - name: dim_contributor
+    description: "Table de dimension des contributeurs contenant les informations utilisateur"
+    schema: application
+    columns:
+      - name: contributeur_id
+        description: "Identifiant unique du contributeur"
+        tests:
+          - unique
+          - not_null
+      - name: login
+        description: "Nom d'utilisateur GitHub du contributeur"
+        tests:
+          - not_null
+      - name: name
+        description: "Nom complet du contributeur"
+      - name: company
+        description: "Entreprise d'affiliation du contributeur"
+      - name: location
+        description: "Localisation géographique du contributeur"
+      - name: email
+        description: "Adresse email du contributeur"
+      - name: created_at
+        description: "Horodatage de création du compte contributeur"
+      - name: updated_at
+        description: "Horodatage de la dernière mise à jour des informations du contributeur"
+
+  - name: fact_issues
+    description: "Table de faits contenant les informations des problèmes avec les relations contributeurs"
+    schema: application
+    columns:
+      - name: issue_id
+        description: "Identifiant unique du problème"
+        tests:
+          - unique
+          - not_null
+      - name: title
+        description: "Titre du problème"
+        tests:
+          - not_null
+      - name: body
+        description: "Description complète du problème"
+      - name: created_at
+        description: "Horodatage de création du problème"
+        tests:
+          - not_null
+      - name: updated_at
+        description: "Horodatage de la dernière mise à jour du problème"
+        tests:
+          - not_null
+      - name: state
+        description: "État actuel du problème"
+        tests:
+          - accepted_values:
+              values: ['open']
+      - name: contributor_id
+        description: "ID du contributeur qui a créé le problème"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_contributor')
+              field: contributeur_id
+      - name: contributor_login
+        description: "Nom d'utilisateur GitHub du contributeur qui a créé le problème"
+        tests:
+          - not_null
+      - name: heures_depuis_creation
+        description: "Nombre d'heures écoulées depuis la création du problème"
+      - name: statut_mise_a_jour
+        description: "Statut indiquant si le problème est nouveau ou a été mis à jour"
